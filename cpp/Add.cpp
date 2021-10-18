@@ -1,16 +1,16 @@
 /*
 Zaimplementuj:
-	•Operator+, po którego obu stronach stoj¹ niemodyfikuj¹ce referencje wektorów liczb rzeczywistych,
-	zaœ wynikiem jest nowy wektor zawieraj¹cy wszystkie elementy wektora po lewej,
+	â€¢Operator+, po ktÃ³rego obu stronach stojÄ… niemodyfikujÄ…ce referencje wektorÃ³w liczb rzeczywistych,
+	zaÅ› wynikiem jest nowy wektor zawierajÄ…cy wszystkie elementy wektora po lewej,
 	a po nich wszystkie elementy wektora po prawej.
 	
-	•Operator+=, po którego lewej i prawej stronie stoi odpowiednio modyfikuj¹ca i niemodyfikuj¹ca referencja wektora liczb rzeczywistych,
-	a wynikiem jest modyfikuj¹ca referencja wektora po lewej.
+	â€¢Operator+=, po ktÃ³rego lewej i prawej stronie stoi odpowiednio modyfikujÄ…ca i niemodyfikujÄ…ca referencja wektora liczb rzeczywistych,
+	a wynikiem jest modyfikujÄ…ca referencja wektora po lewej.
 	Operator dopisuje na jego koniec wszystkie elementy wektora po prawej.
 
-Operatory powinny byæ przystosowane do u¿ycia w przyk³adowym programie poni¿ej. Operatory korzystaj¹ tylko z pliku nag³ówkowego vector.
+Operatory powinny byÄ‡ przystosowane do uÅ¼ycia w przykÅ‚adowym programie poniÅ¼ej. Operatory korzystajÄ… tylko z pliku nagÅ‚Ã³wkowego vector.
 
-	Przyk³adowy program
+	PrzykÅ‚adowy program
 int main() {
 	std::vector<double> vector = std::vector<double> {6.7, -12.3} + std::vector<double> {-2.7, 19};
 	(vector += std::vector<double> {0.5, -2.7}) += std::vector<double> {19};
