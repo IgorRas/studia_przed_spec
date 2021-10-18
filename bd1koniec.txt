@@ -1,0 +1,165 @@
+Dzialania na modelu biblioteka
+1.
+@C:\Users\Igor\AppData\Local\Temp\lab_BD1_ver2.sql
+
+insert into BD1_czytelnik (ID_CZYTELNIKA, CZYTELNIK_NAZWISKO, CZYTELNIK_IMIE, CZYTELNIK_ADRES, CZYTELNIK_MIASTO, CZYTELNIK_KOD , CZYTELNIK_DATA_URODZENIA)
+    values (1, 'A', 'Adam', 'Pulawska 3', 'Warszawa', '00-012', '1990-01-02');
+
+insert into bd1_ksiazka values (1, 'Book A', 'Aleksy', 'Anders', 2);
+
+insert into bd1_wypozyczenie (ID_WYPOZYCZENIA, ID_KSIAZKI, ID_CZYTELNIKA, DATA_WYPOZYCZENIA, STATUS_WYPOZYCZENIA)
+    VALUES (1, 1, 1, '2021-01-20', 1);
+    
+insert into bd1_ksiazka (id_ksiazki, tytul, autor_nazwisko, ranking)
+    values (2, 'Book B', 'Bard', 2);
+
+insert into bd1_wypozyczenie values (2, 1, 1, '2021-02-20', '');
+
+insert into bd1_ksiazka values (3, 'Book c', 'Cemo', 'Cant', 4);
+
+2.
+alter table bd1_wypozyczenie modify ID_KSIAZKI not null;
+
+3.
+update bd1_ksiazka 
+    set autor_imie='Baron'
+where id_ksiazki=2;
+
+update bd1_ksiazka 
+    set ranking=3
+where ranking=2;
+
+4.
+delete bd1_ksiazka where id_ksiazki=1;
+
+delete bd1_ksiazka where id_ksiazki=3;
+
+Tworzenie nowego modelu
+1.
+
+create table bd1_student
+(
+    id_studenta     number(8) primary key,
+    imie            varchar2(25) not null,
+    nazwisko        varchar2(35) not null,
+    rodzaj_studiow  varchar2(3) not null,
+    kierunek        varchar2(3) not null
+);
+
+create table bd1_kierunki_studiow
+(
+    kod         varchar2(3) primary key,
+    opis        varchar2(100)
+);
+
+create table bd1_rodzaj_studiow
+(
+    kod         varchar2(3) primary key,
+    opis        varchar2(100)
+);
+
+2.
+
+alter table bd1_student add constraint fk_kierunek foreign key (kierunek) references bd1_kierunki_studiow(kod);
+alter table bd1_student add constraint fk_rodzaj foreign key (rodzaj_studiow) references bd1_rodzaj_studiow(kod);
+
+3, 4.
+
+insert into bd1_student values( 1, 'Agata', 'Abrams', 'DZI', 'INF');
+insert into bd1_kierunki_studiow values ('INF', 'Informatyka');
+insert into bd1_rodzaj_studiow values ('DZI', 'Dzienne');
+
+insert into bd1_student (id_studenta, imie, nazwisko, rodzaj_studiow, kierunek)
+    values (2, 'Bartosz', 'Beta', 'ZAO', 'INF');
+
+insert into bd1_student (id_studenta, imie, nazwisko, rodzaj_studiow, kierunek)
+    values (2, 'Bartosz', 'Beta', 'DZI', 'PSY');
+    
+insert into bd1_rodzaj_studiow values('ZAO', 'Zaoczne');
+insert into bd1_kierunki_studiow values('PSY', 'Psychologia');
+
+insert into bd1_student (id_studenta, imie, nazwisko, rodzaj_studiow, kierunek)
+    values (2, 'Bartosz', 'Beta', 'ZAO', 'INF');
+
+insert into bd1_student (id_studenta, imie, nazwisko, rodzaj_studiow, kierunek)
+    values (3, 'Cecyl', 'Carry', 'ZAO', 'PSY');
+
+delete bd1_kierunki_studiow where kod='PSY';
+
+5.
+
+update bd1_kierunki_studiow
+    set data_uruchomienia = '2000-09-01'
+where kod='PSY';
+
+update bd1_kierunki_studiow
+    set data_uruchomienia = '2001-09-01';
+
+6.
+
+alter table bd1_student modify nazwisko varchar2(100);
+alter table bd1_student modify nazwisko varchar2(3);
+
+7.
+
+CREATE_BD1.SQL
+create table bd1_student
+(
+    id_studenta     number(8) primary key,
+    imie            varchar2(25) not null,
+    nazwisko        varchar2(35) not null,
+    rodzaj_studiow  varchar2(3) not null,
+    kierunek        varchar2(3) not null
+);
+
+create table bd1_kierunki_studiow
+(
+    kod         varchar2(3) primary key,
+    opis        varchar2(100)
+);
+
+create table bd1_rodzaj_studiow
+(
+    kod         varchar2(3) primary key,
+    opis        varchar2(100)
+);
+
+alter table bd1_student add constraint fk_kierunek foreign key (kierunek) references bd1_kierunki_studiow(kod);
+alter table bd1_student add constraint fk_rodzaj foreign key (rodzaj_studiow) references bd1_rodzaj_studiow(kod);
+
+insert into bd1_kierunki_studiow values ('INF', 'Informatyka');
+insert into bd1_kierunki_studiow values('PSY', 'Psychologia');
+insert into bd1_rodzaj_studiow values ('DZI', 'Dzienne');
+insert into bd1_rodzaj_studiow values('ZAO', 'Zaoczne');
+
+insert into bd1_student values( 1, 'Agata', 'Abrams', 'DZI', 'INF');
+insert into bd1_student (id_studenta, imie, nazwisko, rodzaj_studiow, kierunek)
+    values (2, 'Bartosz', 'Beta', 'ZAO', 'INF');
+insert into bd1_student (id_studenta, imie, nazwisko, rodzaj_studiow, kierunek)
+    values (3, 'Cecyl', 'Carry', 'ZAO', 'PSY');
+
+
+DROP_BD1.SQL
+drop table bd1_student cascade constraints;
+drop table bd1_kierunki_studiow cascade constraints;
+drop table bd1_rodzaj_studiow cascade constraints;
+
+
+8.
+
+alter table bd1_student drop constraint fk_kierunek;
+
+insert into bd1_student values( 4, 'Dominik', 'Dobry', 'DZI', 'TET');
+DELETE bd1_student where kierunek='TET';
+
+
+Działania na tabeli BD2_ZBIORCZA
+1.
+SELECT distinct nazwisko||' '||imie as gracz, rok_urodzenia, nr_klubu  FROM bd2_zbiorcza where plec LIKE 'M' and nr_klubu BETWEEN 3 and 10 order BY rok_urodzenia desc, nr_klubu desc;
+2.
+SELECT distinct nazwisko||' '||imie as gracz, kategoria, plec, rok_urodzenia FROM bd2_zbiorcza where (nazwisko like '%ski' or nazwisko like '%ska') and kategoria in ('I','II','K-II','K-V') order by plec, gracz asc;
+3.
+SELECT distinct nazwisko||' '||imie as gracz, kategoria from bd2_zbiorcza where klub LIKE 'KB Gymnasion Warszawa' and pkt_generalna is null order by kategoria, gracz;
+4.
+SELECT distinct nazwisko||' '||imie as gracz, kategoria, klub from bd2_zbiorcza where kategoria like 'II' or kategoria like 'III' or kategoria like 'V' order by kategoria, klub, gracz
+

@@ -1,0 +1,126 @@
+Laboratorium 3
+
+Zadanie 1.
+
+select nazwisko|| ' '||imie as "Nazwisko i imie", nr_zawodow as "Zawody", rezultat_min || ':' || rezultat_sek as "Czas"
+from bd3_zawodnicy z, bd3_wyniki w, bd3_kluby k
+where z.nr_klubu = k.nr_klubu and z.nr_zawodnika = w.nr_zawodnika
+    and (w.nr_zawodow = 1 or w.nr_zawodow = 3)  and plec = 'M' and w.rezultat_min BETWEEN 44 and 48
+order by nr_zawodow, "Czas";
+
+Zadanie 2.
+
+select distinct nazwisko|| ' '||imie as "Nazwisko i imie", data_urodzenia as "Data urodzenia", nazwa_klubu as "Nazwa klubu", nazwa_kategorii as "Nazwa kategorii"
+from bd3_zawodnicy z, bd3_wyniki w, bd3_kluby k, bd3_kategorie ka
+where z.nr_klubu = k.nr_klubu and z.nr_zawodnika = w.nr_zawodnika and z.nr_kategorii=ka.nr_kategorii
+    and w.punkty_globalne is null and plec = 'K' and z.nr_klubu between 5 and 40 and z.data_urodzenia between '75/01/01' and '84/12/31'
+order by "Nazwisko i imie";
+
+Zadanie 3.
+
+select nazwisko|| ' '||imie as "Nazwisko i imie", nazwa_klubu as "Nazwa klubu", lokata_w_biegu as "Pozycja", rezultat_min || ':' || rezultat_sek as "Czas"
+from bd3_zawodnicy z, bd3_wyniki w, bd3_kluby k
+where z.nr_klubu = k.nr_klubu and z.nr_zawodnika = w.nr_zawodnika
+    and w.nr_zawodow = 1 and z.plec = 'M'
+order by "Czas";
+
+Zadanie 4
+
+select nazwisko|| ' '||imie as "Nazwisko i imie", nazwa_klubu as "Nazwa klubu", data_urodzenia as "Data urodzenia"
+from bd3_zawodnicy z, bd3_wyniki w, bd3_kluby k, bd3_kategorie ka
+where z.nr_klubu = k.nr_klubu and z.nr_zawodnika = w.nr_zawodnika and z.nr_kategorii=ka.nr_kategorii
+    and ka.nazwa_kategorii = 'IV' and z.plec = 'M'
+
+union
+
+select nazwisko|| ' '||imie as "Nazwisko i imie", nazwa_klubu as "Nazwa klubu", data_urodzenia as "Data urodzenia"
+from bd3_zawodnicy z, bd3_wyniki w, bd3_kluby k, bd3_kategorie ka
+where z.nr_klubu = k.nr_klubu and z.nr_zawodnika = w.nr_zawodnika and z.nr_kategorii=ka.nr_kategorii
+    and z.plec = 'K' and z.data_urodzenia between '70/01/01' and '85/12/31' and (nazwisko like '%ska' and nazwisko like 'K%')
+    
+order by "Data urodzenia", 1;
+
+Zadanie 5
+
+select distinct nazwisko|| ' '||imie as "Nazwisko i imie", nazwa_klubu as "Nazwa klubu", data_urodzenia as "Data urodzenia"
+from bd3_zawodnicy z, bd3_wyniki w, bd3_kluby k, bd3_kategorie ka
+where z.nr_klubu = k.nr_klubu and z.nr_zawodnika = w.nr_zawodnika and z.nr_kategorii=ka.nr_kategorii
+    and ((ka.nazwa_kategorii = 'IV' and z.plec = 'M') or (z.plec = 'K' and z.data_urodzenia between '70/01/01' and '85/12/31' and (nazwisko like '%ska' and nazwisko like 'K%')))
+    
+order by "Data urodzenia", 1;
+
+Zadanie 8
+
+insert into bd3_kluby values(0, 'Niezrzeszeni');
+
+update bd3_zawodnicy
+    set nr_klubu = 0
+where nr_klubu is null;
+
+alter table bd3_zawodnicy
+modify nr_klubu not null;
+
+Zadanie 10
+
+
+
+
+Laboratorium 4
+
+Zadanie 1.
+
+select distinct concat(concat(substr(upper(imie), 1, 1), '.'), upper(nazwisko)) as "Imie i nazwisko", 
+extract(year from sysdate) - extract(year from data_urodzenia) as "Wiek", nazwa_kategorii as "Kategoria"
+from bd3_zawodnicy z, bd3_wyniki w, bd3_kluby k, bd3_kategorie ka
+where z.nr_klubu = k.nr_klubu and z.nr_zawodnika = w.nr_zawodnika and z.nr_kategorii=ka.nr_kategorii
+    and (z.nr_zawodnika BETWEEN 30 and 60 or z.nr_zawodnika BETWEEN 300 and 350)
+order by "Wiek" desc;
+
+Zadanie 2.
+
+select nazwa_klubu as "Nazwa klubu", count(*) as"Liczba kobiet bieżących udział" 
+from bd3_zawodnicy z, bd3_kluby k, bd3_wyniki w
+where z.nr_klubu = k.nr_klubu and z.nr_zawodnika = w.nr_zawodnika
+and k.nr_klubu between 10 and 20 and z.plec='K' and w.nr_zawodow = 4
+group by nazwa_klubu
+order by nazwa_klubu;
+
+Zadanie 3.
+
+select nazwa_kategorii as "Nazwa kategorii", count(*) as "Liczba uczestników" 
+from bd3_zawodnicy z, bd3_kategorie k, bd3_wyniki w
+where z.nr_kategorii = k.nr_kategorii and z.nr_zawodnika = w.nr_zawodnika
+and w.nr_zawodow = 3
+group by nazwa_kategorii
+order by "Liczba uczestników" desc;
+
+Zadanie 4.
+
+select k.nr_klubu as "Numer klubu", sum(punkty_globalne) as "Suma punktów"
+from bd3_zawodnicy z, bd3_kluby k, bd3_wyniki w
+where z.nr_klubu = k.nr_klubu and z.nr_zawodnika = w.nr_zawodnika
+and w.nr_zawodow = 1
+group by k.nr_klubu
+having sum(punkty_globalne) is not null
+order by "Suma punktów" desc,  k.nr_klubu asc;
+
+Zadanie 5.
+
+select nazwa_klubu as "Nazwa klubu", sum(punkty_globalne) as "Suma punktów"
+from bd3_zawodnicy z, bd3_kluby k, bd3_wyniki w
+where z.nr_klubu = k.nr_klubu and z.nr_zawodnika = w.nr_zawodnika
+and w.nr_zawodow = 3 and z.plec = 'K'
+group by nazwa_klubu
+having sum(punkty_globalne) >=50
+order by "Suma punktów" desc;
+
+Zadanie 6.
+
+select plec as "Płeć", data_zawodow as "Data zawodów", nazwa_zawodow as "Nazwa zawodów",
+cast(avg(extract(year from sysdate) - extract(year from data_urodzenia)) as DECIMAL(10, 2)) as "Średni wiek",
+count(*) as "Liczba zawodników"
+from bd3_zawodnicy z, bd3_zawody zaw, bd3_wyniki w
+where z.nr_zawodnika = w.nr_zawodnika and zaw.nr_zawodow = w.nr_zawodow
+group by plec, data_zawodow, nazwa_zawodow
+order by "Data zawodów", plec, "Liczba zawodników" desc;
+
