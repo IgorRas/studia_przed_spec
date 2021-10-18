@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<form action="http://info.wsisiz.edu.pl/~zawadzkp/skrypt.php" method="GET">
+
+    <body>
+        <table>
+            <style>
+                td,
+                th {
+                    border: 1px solid greenyellow
+                }
+            </style>
+            <tr>
+
+                <td colspan=2 style="text-align:center">
+                    <h3>Formularz dodawnia ogłoszenia</h3>
+                    </th>
+            </tr>
+            <tr>
+                <th>Marka</th>
+                <th><input type="text" name="Marka"></th>
+            </tr>
+            <tr>
+                <th>Model</th>
+                <th><input type="text" name="Model"></th>
+            </tr>
+            <tr>
+                <th>Rok</th>
+                <th><input type="date" name="Rok"></th>
+            </tr>
+            <tr>
+                <th>Silnik</th>
+                <th><input type="radio" name="Silnik" value="Benzyna">Benzyna
+                    <input type="radio" name="Silnik" value="Diesel">Diesel
+                </th>
+            </tr>
+            <tr>
+                <td rowspan=3>Wyposażenie</td>
+                <td style=><input type="checkbox" name="Klimatyzacja">Klimatyzacja
+                </td>
+            </tr>
+            <tr>
+                <td><input type="checkbox" name="ABS">ABS</td>
+            </tr>
+            <tr>
+                <td><input type="checkbox" name="Wspomaganie kierownicy">Wspomaganie kierownicy</td>
+            </tr>
+            <tr>
+                <th>Stan ogólny</th>
+                <th><select name="Stan ogólny">
+                        <option value="0">zły</option>
+                        <option value="1">średni</option>
+                        <option value="2">dobry</option>
+                        <option value="3">bardzo dobry</option>
+                        <option value="4">idealny</option>
+                    </select> </th>
+            </tr>
+            <tr>
+                <th>Opis</th>
+                <th><input type="text" name="Opis" style="height: 50px;"></th>
+            </tr>
+            <tr>
+                <td colspan=2 style="text-align:center"><button type="submit">Potwierdź</button>
+                    <button type="reset">Reset</button></th>
+            </tr>
+
+        </table>
+</form>
+</body>
+
+</html>

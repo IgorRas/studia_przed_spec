@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kalkulator</title>
+    <script>
+        function waliduj(elem) {
+            const wartosc1 = elem.value;
+            if(!wartosc1){
+                alert("Pole musi być wypełnione")
+                return false;
+            }
+
+            else if (isNaN(wartosc1)) {
+                alert("Pole musi być liczbą.")
+                return false;
+            }
+        }
+
+        function policz(bool1, bool2) {
+            if(bool1==bool2==1) {
+            var a = Number(document.getElementById('pierwsza').value);
+            var b = Number(document.getElementById('druga').value);
+            switch (document.getElementById('operand').value) {
+                case '+':
+                    wartosc = a + b;
+                    break;
+                case '-':
+                    wartosc = a - b;
+                    break;
+                case '*':
+                    wartosc = a * b;
+                    break;
+                case '/':
+                    wartosc = a / b;
+                    break;
+                case '%':
+                    wartosc = a % b;
+                    break;
+
+                default:
+                    break;
+            
+            document.getElementById('wynik').value = wartosc;
+            var x = document.getElementById('operand').value;
+            var hist = document.createElement('div');
+            hist.innerHTML = a + x + b + '=' + wartosc;
+            document.body.appendChild(hist);}
+            }
+        }
+    </script>
+</head>
+
+<body>
+    <input type="text" id="pierwsza" name="pierwsza" >
+    <select id="operand" onchange="policz(waliduj(document.getElementById('pierwsza')), waliduj(document.getElementById('druga')));">
+        <option>+</option>
+        <option>-</option>
+        <option>*</option>
+        <option>/</option>
+        <option>%</option>
+    </select>
+    <input type="text" id="druga" name="druga" >
+    =
+    <input type="number" id="wynik" name="wynik" readonly>
+    <button onclick="policz(waliduj(document.getElementById('pierwsza')), waliduj(document.getElementById('druga')));">Licz</button>
+</body>
+
+</html>
